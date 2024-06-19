@@ -27,10 +27,12 @@ func main() {
 		"layout.gohtml", "faq.gohtml",
 	))))
 
-	r.Get("/singup", controllers.StaticHandler(views.Must(views.ParseFS(
+	usersC := controllers.Users{}
+	usersC.Templates.New = views.Must(views.ParseFS(
 		templates.FS,
 		"layout.gohtml", "singup.gohtml",
-	))))
+	))
+	r.Get("/singup", usersC.New)
 
 	r.NotFound(func(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Page not found", http.StatusNotFound)
